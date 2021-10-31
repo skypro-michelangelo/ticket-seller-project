@@ -27,7 +27,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "stylelint src/**/*.tsx && eslint ./src/"
+    "lint": "stylelint src/**/*.css && eslint ./src/",
+    "style:lint": "stylelint src/**/*.css",
+    "js:lint": "eslint ./src/",
+    "lint:types": "tsc --noEmit",
+    "prettier:check": "prettier --config ./.prettierrc.json --check src/**/*",
+    "prettier:write": "prettier --config ./.prettierrc.json --write src/**/*",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -57,5 +63,17 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-prettier": "^1.2.0",
     "stylelint-processor-styled-components": "^1.10.0"
+  },
+  "lint-staged": {
+    "src/**/*.{tsx,css,html}": [
+      "npm run prettier:check",
+      "npm run lint"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run lint:types",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
