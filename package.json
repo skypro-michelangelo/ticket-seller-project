@@ -53,6 +53,8 @@
   },
   "devDependencies": {
     "@storybook/react": "6.3.12",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.6",
     "prettier": "2.4.1",
     "redux-devtools": "3.7.0",
     "stylelint": "14.0.1",
