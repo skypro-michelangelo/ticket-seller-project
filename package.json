@@ -32,7 +32,7 @@
     "lint:types": "tsc --noEmit",
     "prettier:check": "prettier --config --check \"src/**/*.{tsx,ts,css}\"",
     "prettier:write": "prettier --config --write \"src/**/*.{tsx,ts,css}\"",
-    "precommit": "lint-staged"
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -71,11 +71,5 @@
       "npm run prettier:check",
       "npm run lint"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run lint:types",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   }
 }
