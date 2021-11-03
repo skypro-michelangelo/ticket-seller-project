@@ -1,8 +1,31 @@
 # Интерфейс страницы продажи билетов
 
-- npm run build - билдит
-- npm run start - запускает
-- npm run lint - линтит
+Сбилдить проект:
 
-- npm run prettier:check - проверяет проект на ошибки форматирования
-- npm run prettier:write - исправляет ошибки форматирования
+```bash
+$ npm run build
+```
+
+Запустить проект:
+
+```bash
+$ npm run start
+```
+
+Запустить ESLint для проверки tsx, ts файлов и Stylelint для проверки css файлов:
+
+```bash
+$ npm run lint
+```
+
+Проверить проект на ошибки форматирования:
+
+```bash
+$ npm run prettier:check
+```
+
+Исправить ошибки форматирования:
+
+```bash
+$ npm run prettier:write
+```

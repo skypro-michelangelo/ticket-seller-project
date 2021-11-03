@@ -1,7 +1,7 @@
 {
-  "extends": ["stylelint-config-styled-components", "stylelint-prettier/recommended"],
+  "extends": ["stylelint-config-recommended", "stylelint-config-styled-components", "stylelint-prettier/recommended"],
   "plugins": ["stylelint-prettier"],
   "rules": {
-    "prettier/prettier": [true, { "endOfLine": "crlf", "printWidth": 120, "singleQuote": true, "tabWidth": 2 }]
+    "prettier/prettier": true
   }
 }
