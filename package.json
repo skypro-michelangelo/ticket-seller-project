@@ -31,7 +31,8 @@
     "js:lint": "eslint ./src/",
     "lint:types": "tsc --noEmit",
     "prettier:check": "prettier --config --check \"src/**/*.{tsx,ts,css}\"",
-    "prettier:write": "prettier --config --write \"src/**/*.{tsx,ts,css}\""
+    "prettier:write": "prettier --config --write \"src/**/*.{tsx,ts,css}\"",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -53,7 +54,7 @@
   },
   "devDependencies": {
     "@storybook/react": "6.3.12",
-    "husky": "7.0.4",
+    "husky": "4.3.8",
     "lint-staged": "11.2.6",
     "prettier": "2.4.1",
     "redux-devtools": "3.7.0",
@@ -69,11 +70,5 @@
       "npm run prettier:check",
       "npm run lint"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run lint:types",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   }
 }
