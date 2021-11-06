@@ -3,31 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@reduxjs/toolkit": "^1.6.2",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "@types/jest": "^26.0.24",
-    "@types/node": "^12.20.36",
-    "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
-    "@types/styled-components": "^5.1.15",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.6",
-    "react-router-dom": "^5.3.0",
+    "@reduxjs/toolkit": "1.6.2",
+    "@testing-library/jest-dom": "5.14.1",
+    "@testing-library/react": "11.2.7",
+    "@testing-library/user-event": "12.8.3",
+    "@types/jest": "26.0.24",
+    "@types/node": "12.20.36",
+    "@types/react": "17.0.33",
+    "@types/react-dom": "17.0.10",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "7.2.6",
+    "react-router-dom": "5.3.0",
     "react-scripts": "4.0.3",
-    "redux": "^4.1.2",
-    "styled-components": "^5.3.3",
-    "typescript": "^4.4.4",
-    "web-vitals": "^1.1.2"
+    "redux": "4.1.2",
+    "styled-components": "5.3.3",
+    "typescript": "4.4.4",
+    "web-vitals": "1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "stylelint src/**/*.tsx && eslint ./src/"
+    "lint": "stylelint src/**/*.css && eslint ./src/",
+    "style:lint": "stylelint src/**/*.css",
+    "js:lint": "eslint ./src/",
+    "lint:types": "tsc --noEmit",
+    "prettier:check": "prettier --config --check \"src/**/*.{tsx,ts,css}\"",
+    "prettier:write": "prettier --config --write \"src/**/*.{tsx,ts,css}\""
   },
   "eslintConfig": {
     "extends": [
@@ -48,14 +52,22 @@
     ]
   },
   "devDependencies": {
-    "@storybook/react": "^6.3.12",
+    "@storybook/react": "6.3.12",
+    "husky": "4.3.8",
+    "lint-staged": "11.2.6",
     "prettier": "2.4.1",
-    "redux-devtools": "^3.7.0",
-    "stylelint": "^14.0.1",
-    "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-standard": "^23.0.0",
-    "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-prettier": "^1.2.0",
-    "stylelint-processor-styled-components": "^1.10.0"
+    "redux-devtools": "3.7.0",
+    "stylelint": "14.0.1",
+    "stylelint-config-prettier": "9.0.3",
+    "stylelint-config-standard": "23.0.0",
+    "stylelint-config-styled-components": "0.1.1",
+    "stylelint-prettier": "1.2.0",
+    "stylelint-processor-styled-components": "1.10.0"
+  },
+  "lint-staged": {
+    "src/**/*.{tsx,ts,css}": [
+      "npm run prettier:check",
+      "npm run lint"
+    ]
   }
 }
