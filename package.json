@@ -31,8 +31,7 @@
     "js:lint": "eslint ./src/",
     "lint:types": "tsc --noEmit",
     "prettier:check": "prettier --config --check \"src/**/*.{tsx,ts,css}\"",
-    "prettier:write": "prettier --config --write \"src/**/*.{tsx,ts,css}\"",
-    "prepare": "husky install"
+    "prettier:write": "prettier --config --write \"src/**/*.{tsx,ts,css}\""
   },
   "eslintConfig": {
     "extends": [
