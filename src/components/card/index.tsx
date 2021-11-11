@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { CardTag } from "../card-tag";
+import DetailsModal from "../modal";
 
 export interface ICardProps {
     // TODO: добавить урл картинки
@@ -44,6 +45,7 @@ export const Card: FC<ICardProps> = (
                 <Typography color={"white"}>
                     {eventName}
                 </Typography>  
+                <DetailsModal/>
             </Box>
         </>
     )

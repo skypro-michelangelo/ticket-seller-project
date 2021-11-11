@@ -5,6 +5,7 @@ import { Header } from '../../../components/header';
 import { CardsLayout } from '../../../components/cards-layout';
 import { Grid } from '@mui/material';
 import { Controls  } from '../../../components/controls';
+import BasicModal from '../../../components/modal';
 
 const stub: ICardProps[] = [
   {
