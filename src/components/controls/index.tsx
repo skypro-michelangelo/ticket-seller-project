@@ -1,11 +1,27 @@
 import { Box, Stack } from "@mui/material"
 import { FC } from "react"
-import { EventsSearchAutocomplete  } from "./events-search-autocomplete"
-import { EventTypeSelect  } from "./event-type-select"
-import { EventDatePicker } from "./event-date-picker"
+import { EventsSearchAutocomplete, IEventsSearchAutocompleteProps  } from "./events-search-autocomplete"
+import { EventTypeSelect, IEventTypeSelectProps  } from "./event-type-select"
+import { EventDatePicker, IEventDatePickerProps } from "./event-date-picker"
 
 
-export const Controls: FC = (): JSX.Element => {
+export interface IControlsProps 
+  extends IEventsSearchAutocompleteProps, 
+    IEventTypeSelectProps, 
+    IEventDatePickerProps {}
+
+export const Controls: FC<IControlsProps> = (
+  {
+    selectedOption,
+    handleChange,
+
+    searchQuery,
+    onChange,
+
+    selectedDate,
+    onDateChange
+  }
+): JSX.Element => {
   return (
       <Box
         sx={{
@@ -13,9 +29,20 @@ export const Controls: FC = (): JSX.Element => {
         }}
       >
           <Stack direction={"row"} spacing={3}>
-            <EventsSearchAutocomplete options={['Godfather', 'some shit movie']} />
-            <EventTypeSelect options={['Godfather', 'some shit movie']} />
-            <EventDatePicker />
+            <EventsSearchAutocomplete 
+              searchQuery={searchQuery}
+              onChange={onChange}
+            />
+            
+            <EventTypeSelect
+              selectedOption={selectedOption}
+              handleChange={handleChange}
+            />
+
+            <EventDatePicker 
+              selectedDate={selectedDate}
+              onDateChange={onDateChange}
+            />
           </Stack>
       </Box>
   )

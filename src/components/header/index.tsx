@@ -1,18 +1,21 @@
 import { FC } from 'react';
-import Box from "@mui/material/Box";  
+import Box from "@mui/material/Box";
+import { ReactComponent as Logo } from "../../images/logo.svg"
+
 
 export const Header: FC = () => {
     return (
     <Box 
       sx={{
         width: "100%",
-        height: "60px",
-        backgroundColor: "blue",
+        height: "70px",
+        backgroundColor: "#434ADC",
+        opacity: "50%",
         padding: "15px 30px",
         boxSizing: "border-box"
       }}
     >
-        Будущее лого
+        <Logo />
     </Box>
     );
 };

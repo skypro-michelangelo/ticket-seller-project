@@ -1,52 +1,72 @@
-import React, { FC } from "react";
+import { FC, useCallback, useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { CardTag } from "../card-tag";
-import DetailsModal from "../modal";
+import { DetailsModal } from "../modal";
+import { getActionURL, IEvent } from "../../pages/MainPage/afisha/afisha";
+import "dayjs/locale/ru";
+import customParseFormat from "dayjs/plugin/customParseFormat"
+import dayjs from "dayjs";
 
-export interface ICardProps {
-    // TODO: добавить урл картинки
-    /** Фильм */
-    cardType: string;
-    /** 24 мая, 18:00 */
-    beginningDate: string;
+dayjs.extend(customParseFormat)
 
-    cost: string;
-    eventName: string;
+export const localizatedType: Record<string, string> = {
+    "concert": "Концерт",
+    "opera":"Опера",
+    "ballet":"Балет",
+    "cinema":"Кино",
+    "exhibition":"Выставка",
+    "perfomance":"Спектакль",
 }
 
 // img 250px + content 250px
-export const Card: FC<ICardProps> = (
-    {
-        cardType,
-        beginningDate,
-        cost,
-        eventName
-    }
+export const Card: FC<IEvent> = (
+   props
 ): JSX.Element => {
-    const data = [cardType, beginningDate, cost]
+    const { name, date, time, picture, type_event } = props;
+    /* TODO: поправь на нормальный урл потом НИХУЯ НЕ РАБОТАЕТ НИГДЕ БЛЯТЬ */
+    const imgUrl = getActionURL("/" + picture);
 
+    const dateString = dayjs(`${date} ${time}`, "DD.MM.YYYY HH:mm").locale("ru").format("D MMMM, HH:mm")
+    
+    const eventTypeString = localizatedType[type_event] ?? "Неизвестный тип события";
+    const dataTags = [eventTypeString, dateString];
+   
+    const [open, setOpen] = useState(false);
+    const toggle = useCallback(() => setOpen(v => !v), [])
+  
     return (
         <>
-            <img src="/" alt="тута будет картинка фильма" />
+            <img src={imgUrl} alt="тута будет картинка фильма" />
 
-            <Box 
-              sx={{ 
-                backgroundColor: "darkblue",
-                padding: "10px",
-                
-              }}
-            >
-                <Stack direction={"row"} spacing={2}>
-                  {data.map(elem => <CardTag key={elem} text={elem} />)}
-                </Stack>
+            <div onClick={toggle}>
+                <Box 
+                    sx={{ 
+                        backgroundColor: "darkblue",
+                        padding: "10px",
+                    }}
+                >
+                    <Stack direction={"row"} spacing={2}>
+                    {dataTags.map(elem => <CardTag key={elem} text={elem} />)}
+                    </Stack>
 
-                <div style={{ height: "10px" }} />
+                    <div style={{ height: "10px" }} />
 
-                <Typography color={"white"}>
-                    {eventName}
-                </Typography>  
-                <DetailsModal/>
-            </Box>
+                    <Typography color={"white"}>
+                        {name}
+                    </Typography>  
+                </Box>
+            </div>
+
+            <DetailsModal 
+                isOpen={open}
+                handleClose={toggle}
+                eventName={name}
+                eventDescription={props.event_description || "Забыли указать описание события gneorbgihebr higberhbgh erbghie ghiebrhigb bgherb gerbg highiebrg hibghieghier"}
+                eventTicketsCountLeft={props.tickets_number}
+                eventDateString={dateString}
+                eventTypeStringInRussian={eventTypeString}
+                eventId={props._id}
+            />
         </>
     )
 }

@@ -1,19 +1,22 @@
-import { Autocomplete, TextField } from "@mui/material"
-import { FC } from "react"
+import { TextField } from "@mui/material"
+import { ChangeEvent, FC } from "react"
 
 export interface IEventsSearchAutocompleteProps {
-    options: string[];
+    searchQuery: string;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const EventsSearchAutocomplete: FC<IEventsSearchAutocompleteProps> = (
-    { options }
+    { 
+        searchQuery,
+        onChange
+     }
 ): JSX.Element => {
     return (
-        <Autocomplete
-            disablePortal
-            options={options}
-            sx={{ width: "250px" }}
-            renderInput={(params) => <TextField {...params} label="Событие" />}
+        <TextField
+            value={searchQuery}
+            onChange={onChange}
+            label="Событие" 
         />
     )
 }

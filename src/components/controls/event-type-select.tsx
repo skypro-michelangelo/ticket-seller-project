@@ -1,22 +1,36 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import React, { FC } from "react";
+import { localizatedType } from "../card";
 
 
-interface IEventTypeSelectProps {
-    options: string[];
+export interface IEventTypeSelectProps {
+    selectedOption: string | undefined;
+    handleChange: (e: SelectChangeEvent) => void;
 }
 
 export const EventTypeSelect: FC<IEventTypeSelectProps> = (
-    { options }
+    {
+        selectedOption, 
+        handleChange,
+     }
 ): JSX.Element => {
-
-  // TODO: добавить onSelect
   return (
-        <Autocomplete
-            disablePortal
-            options={options}
-            sx={{ width: "200px" }}
-            renderInput={(params) => <TextField {...params} label="Тип" />}
-        />
+    <>
+      <Select
+        value={selectedOption}
+        onChange={handleChange}
+        placeholder={"Тип события"}
+        sx={{ width: "200px" }}
+        >
+            {Object.entries(localizatedType).map(([value, russianDescription]) => {
+                return (
+                    <MenuItem key={value} value={value}>
+                        {russianDescription}
+                    </MenuItem>
+                )
+            })}
+        </Select>
+    </>
+    
   )
 }
