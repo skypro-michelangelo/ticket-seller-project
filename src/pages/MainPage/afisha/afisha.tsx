@@ -17,21 +17,20 @@ export const getActionURL = (suffix: string): string => {
 export interface IEvent {
   /**Название мероприятия */
   name: string;
-  /** Дата мероприятия куда пропало блять?*/
+  /** Дата мероприятия пропала*/
   date: string;
   time: string;
 
   tickets_number: number;
-  /** Заставить фильтровать заявки по статусу мероприятия Пока что похуй  */
+  /** Заставить фильтровать заявки по статусу мероприятия  */
   status: string; 
-  /**Штош хуета какая-то ненужная*/
+  /**Не используется*/
   in_archive: boolean;
   /**урл изображения */
   picture: string;
 
   tickets: ITicket[];
 
-  /**ГДЕ МОЕ ЕБУЧЕЕ ОПИСАНИЕ СОБЫТИЯ??? */
   event_description: string | undefined;
 
   type_event: string;

@@ -23,7 +23,7 @@ export const Card: FC<IEvent> = (
    props
 ): JSX.Element => {
     const { name, date, time, picture, type_event } = props;
-    /* TODO: поправь на нормальный урл потом НИХУЯ НЕ РАБОТАЕТ НИГДЕ БЛЯТЬ */
+    /* TODO: поправь на нормальный урл */
     const imgUrl = getActionURL("/" + picture);
 
     const dateString = dayjs(`${date} ${time}`, "DD.MM.YYYY HH:mm").locale("ru").format("D MMMM, HH:mm")
