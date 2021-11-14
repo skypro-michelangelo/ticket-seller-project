@@ -77,7 +77,7 @@ export const Card: FC<IEvent> = (
                         borderRadius: "0 0 16px 16px",
                         boxShadow: "0px 0px 10px rgb(0 0 0 / 65%)",
                         minWidth: "350px",
-                        maxWidth: "600px"
+                        maxWidth: "580px"
                     }}
                 >
                     <Stack direction={"row"} spacing={2}>
