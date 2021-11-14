@@ -3,8 +3,9 @@ import { FC } from "react"
 
 interface ICardTagProps {
     text: string | number;
+
 }
 
 export const CardTag: FC<ICardTagProps> = ({ text }): JSX.Element => {
-    return <Chip color={"primary"} label={text} />
+    return <Chip color={"secondary"} label={text} />
 }

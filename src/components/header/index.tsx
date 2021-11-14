@@ -10,7 +10,6 @@ export const Header: FC = () => {
         width: "100%",
         height: "70px",
         backgroundColor: "#434ADC",
-        opacity: "50%",
         padding: "15px 30px",
         boxSizing: "border-box"
       }}

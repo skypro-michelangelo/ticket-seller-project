@@ -11,16 +11,16 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat)
 
 export const getActionURL = (suffix: string): string => {
-  return "http://localhost:5000" + suffix;
+  return "https://michelangelo-backend.herokuapp.com" + suffix;
 }
 
 export interface IEvent {
   /**Название мероприятия */
   name: string;
   /** Дата мероприятия пропала*/
-  date: string;
+  date_time: string;
   time: string;
-
+  
   tickets_number: number;
   /** Заставить фильтровать заявки по статусу мероприятия  */
   status: string; 
@@ -31,7 +31,11 @@ export interface IEvent {
 
   tickets: ITicket[];
 
-  event_description: string | undefined;
+  price: number;
+  
+  location: string;
+
+  description: string | undefined;
 
   type_event: string;
 
@@ -91,7 +95,7 @@ export const MainPage: FC = () => {
     
      if (selectedEventDate) {
       resultEventsAfterFitler = resultEventsAfterFitler.filter(e => {
-        const eventBeginningDate = dayjs(e.date, "DD.MM.YYYY");
+        const eventBeginningDate = dayjs(e.date_time, "DD.MM.YYYY");
 
         return eventBeginningDate.isSame(selectedEventDate, "d");
       });

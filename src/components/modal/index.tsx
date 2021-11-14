@@ -17,7 +17,7 @@ const modalStyles: BoxProps["sx"] = {
   boxShadow: 24,
   padding: "30px",
   width: "830px",
-  height: "450px"
+  borderRadius: "25px"
 };
 
 
@@ -35,7 +35,6 @@ const ChildModal: FC<IBuyTicketsModalProps> = (
   {
     isOpen,
     handleClose,
-
     eventTypeStringInRussian,
     eventName,
     dateTime,
@@ -129,18 +128,7 @@ const ChildModal: FC<IBuyTicketsModalProps> = (
           </Button>
         </Stack>
 
-        <Alert 
-            severity="success" 
-            sx={{
-              position: 'absolute',
-              top: '55%',
-              left: '55%',
-              width: "300px",
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            <AlertTitle>Поздравляем!</AlertTitle>
-          </Alert>
+       
 
         {resultTicket && (
           <Alert 
@@ -152,11 +140,125 @@ const ChildModal: FC<IBuyTicketsModalProps> = (
               transform: 'translate(-50%, -50%)',
             }}
           >
-            <AlertTitle>Поздравляем!</AlertTitle>
+            <AlertTitle>Поздравляем! Вы купили билет № {eventId}</AlertTitle>
           </Alert>
         )}
       </Box>
     </Modal>
+  );
+}
+
+export interface SecondSceneProps {
+  handleClose: VoidFunction;
+  eventTypeStringInRussian: string;
+  eventName: string;
+  dateTime: string;
+  eventId: string;
+}
+
+const SecondScene: FC<SecondSceneProps> = (
+  {
+    eventTypeStringInRussian,
+    eventName,
+    dateTime,
+    eventId,
+    handleClose
+  }
+) => {
+  const headerString = `Купить билет на ${eventTypeStringInRussian.toLowerCase()} ${eventName}`;
+
+  const [ticketsCount, setTicketsCount] = useState<string>("0");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [resultTicket, setResultTicket] = useState<ITicket | null>(null)
+
+  const submitForm = () => {
+    const buyTicketActionURL = getActionURL(`/events/${eventId}/ticket/buy`);
+    const formDataToSubmit = {
+      number: Number(ticketsCount),
+      first_name: firstName,
+      second_name: lastName
+    }
+
+    fetch(buyTicketActionURL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formDataToSubmit)
+    })
+      .then(r => r.json())
+      .then(setResultTicket)
+      .then()
+      .catch(e => console.error(e))
+  }
+
+  return (
+      <Box sx={modalStyles}>
+        <Stack direction="row" gap={"30px"} alignItems="flex-start" justifyContent="space-between">
+          <Typography color="black" variant="h4">
+            {headerString}
+          </Typography>
+
+          <IconButton onClick={handleClose} sx={{ color: "black" }}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+
+        <CellEmpty height={20} />
+
+        <Typography color="black" variant="h5">
+          {dateTime}
+        </Typography>
+        <CellEmpty height={20} />
+
+        <TextField 
+          label="Количество билетов" 
+          variant="outlined" 
+          required
+          onChange={e => setTicketsCount(e.target.value)}
+        />
+        <CellEmpty height={20} />
+
+        <TextField 
+          label="Имя" 
+          variant="outlined" 
+          required
+          onChange={e => setFirstName(e.target.value)}  
+        />
+        <CellEmpty height={20} />
+
+        <TextField 
+          label="Фамилия"
+          variant="outlined"
+          required
+          onChange={e => setLastName(e.target.value)} 
+        />
+        <CellEmpty height={100} />
+
+        <Stack justifyContent="center" alignItems="center">
+          <Button variant="outlined" onClick={submitForm}>
+            Купить билет
+          </Button>
+        </Stack>
+
+       
+
+        {resultTicket && (
+          <Alert 
+            severity="success" 
+            sx={{
+              position: 'absolute',
+              top: '65%',
+              left: '65%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <AlertTitle>Поздравляем! Вы купили билет № {eventId}</AlertTitle>
+          </Alert>
+        )}
+      </Box>
   );
 }
 
@@ -166,10 +268,10 @@ export const CellEmpty: FC<{ height: number }> = ({ height }) => <Box sx={{ heig
 export interface IDetailsModalProps {
   isOpen: boolean;
   handleClose: VoidFunction;
-
+  eventLocation: string;
   eventName: string;
   eventDescription: string;
-
+  eventPrice: number;
   eventDateString: string;
   eventTicketsCountLeft: number;
   eventTypeStringInRussian: string;
@@ -199,7 +301,8 @@ export const DetailsModal: FC<IDetailsModalProps> = (
   {
     isOpen,
     handleClose,
-
+    eventPrice,
+    eventLocation,
     eventName,
     eventDescription,
     eventDateString,
@@ -208,8 +311,16 @@ export const DetailsModal: FC<IDetailsModalProps> = (
     eventId
   }
 ): JSX.Element => {
-  const [isBuyTicketModalOpen, setBuyTicketModalOpen] = useState<boolean>(false);
-  const toggleTicketModalOpenness = useCallback(() => setBuyTicketModalOpen(v => !v), []);
+  const [index, setIndex] = useState<number>(0);
+  
+  const onTicketBuyClick = () => {
+    setIndex(1);
+  }
+
+  const onTicketBuyModalClose = () => {
+    setIndex(0);
+  }
+
 
   const eventInformation: JSX.Element = (
     <Typography color="black">
@@ -221,13 +332,20 @@ export const DetailsModal: FC<IDetailsModalProps> = (
       {eventDateString}
 
       <CellEmpty height={30}/>
+      Место проведения : {eventLocation}
+
+      <CellEmpty height={30}/>
       {eventDescription}
 
+      <CellEmpty height={30}/>
+      Цена : {eventPrice} ₽
+      
       <CellEmpty height={150}/>
       осталось {eventTicketsCountLeft} {getTicketsDeclencionString(eventTicketsCountLeft)} 
 
       <CellEmpty height={20} />
-      <Button variant="outlined" onClick={toggleTicketModalOpenness}>
+
+      <Button variant="outlined" onClick={onTicketBuyClick}>
         Купить билет
       </Button>
     </Typography>
@@ -236,31 +354,43 @@ export const DetailsModal: FC<IDetailsModalProps> = (
 
   return (
     <>
-      <Modal
+         <Modal
         open={isOpen}
         onClose={handleClose}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
         <Box sx={modalStyles}>
-          <Stack 
+          {index === 0 && (
+            <Stack 
             direction="row" 
             justifyContent="space-between"
           >
             {eventInformation}
-            <img alt="Я сломался как обычно блет" width="340px" height="340px" />
+            <img alt="Сломанная картинка" width="340px" height="340px" />
           </Stack>
+          )}
+
+{index === 1 && (
+           <SecondScene
+                eventTypeStringInRussian={eventTypeStringInRussian}
+                eventName={eventName}
+                dateTime={eventDateString}
+                eventId={eventId}
+                handleClose={onTicketBuyModalClose}
+            />
+          )}
         </Box>
       </Modal>
 
-      <ChildModal
+      {/* <ChildModal
         isOpen={isBuyTicketModalOpen}
         handleClose={toggleTicketModalOpenness}
         eventTypeStringInRussian={eventTypeStringInRussian}
         eventName={eventName}
         dateTime={eventDateString}
         eventId={eventId}
-      />
+      /> */}
     </>
   );
 }
